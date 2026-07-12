@@ -185,7 +185,7 @@ export default function App() {
         </header>
 
         {/* Main Workspace Frame */}
-        <main className="max-w-[1400px] mx-auto px-4 mt-8 flex-1 w-full relative">
+        <main className="max-w-[1650px] mx-auto px-2 sm:px-4 mt-8 flex-1 w-full relative">
           {activeTab === 'PATIENT' && (
             <PatientView
               departments={departments}

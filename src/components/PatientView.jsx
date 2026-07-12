@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Activity, Clock, CheckCircle2, AlertCircle, ArrowRight, Building, Play, Map, Navigation, MapPin, Info, X, FileText, HelpCircle, Coffee, Ticket, Bell, ChevronDown, User, Layers, Volume2, MessageSquare, PhoneCall, Camera, Send } from 'lucide-react';
+import { Search, Activity, Clock, CheckCircle2, AlertCircle, ArrowRight, Building, Play, Map, Navigation, MapPin, Info, X, FileText, HelpCircle, Coffee, Ticket, Bell, ChevronDown, User, Layers, Volume2, MessageSquare, PhoneCall, Camera, Send, Shield, CreditCard, QrCode } from 'lucide-react';
 import VisualHospitalMap from './VisualHospitalMap';
 import HospitalCampusMap from './HospitalCampusMap';
 const AutoSpeaker = ({ text }) => {
@@ -595,7 +595,54 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
   }
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-[1650px] w-full mx-auto flex flex-col lg:flex-row gap-6 lg:gap-8 items-start px-4 sm:px-6 lg:px-8">
+      
+      {/* Left Sidebar (Rules & Guidelines) */}
+      <div className="hidden lg:flex w-[280px] xl:w-[300px] shrink-0 flex-col gap-6 sticky top-6 animate-in slide-in-from-left-8 duration-700 fade-in">
+        
+        {/* Banner Quick Info */}
+        <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-6 shadow-lg text-white relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl transform translate-x-10 -translate-y-10"></div>
+          <h3 className="font-black text-lg mb-2 flex items-center gap-2 relative z-10"><Shield className="w-5 h-5"/> Bảo mật Hồ sơ</h3>
+          <p className="text-sm text-blue-100 mb-0 relative z-10">Mọi thông tin y khoa của bạn đều được mã hóa theo tiêu chuẩn HIPAA & ISO 27001.</p>
+        </div>
+
+        {/* BHYT Box */}
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="p-5 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+            <h3 className="font-black text-slate-800 text-[15px] flex items-center gap-2"><CreditCard className="w-4 h-4 text-indigo-500 fill-indigo-500/20"/> Thanh toán & BHYT</h3>
+          </div>
+          <div className="p-5 flex flex-col gap-4 text-sm">
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+                <QrCode className="w-4 h-4"/>
+              </div>
+              <p className="text-slate-600 text-[13px] leading-relaxed pt-0.5">Khuyến khích quét mã <strong>QR Pay</strong> hoặc ví điện tử tại các quầy để tiết kiệm thời gian chờ.</p>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                <FileText className="w-4 h-4"/>
+              </div>
+              <p className="text-slate-600 text-[13px] leading-relaxed pt-0.5">Vui lòng xuất trình <strong>Thẻ BHYT & CCCD</strong> trước khi bác sĩ chốt đơn thuốc để hưởng đúng tuyến.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Safety Rules Box */}
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="p-5 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+            <h3 className="font-black text-slate-800 text-[15px] flex items-center gap-2"><AlertCircle className="w-4 h-4 text-amber-500 fill-amber-500/20"/> Lưu ý An toàn</h3>
+          </div>
+          <div className="p-5 flex flex-col gap-3 text-[13px] text-slate-600 font-medium">
+             <div className="flex items-center justify-between"><span>Đeo khẩu trang:</span><strong className="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Bắt buộc</strong></div>
+             <div className="flex items-center justify-between"><span>Trẻ dưới 12 tuổi:</span><strong className="text-rose-600 bg-rose-50 px-2 py-0.5 rounded">Cần người lớn đi kèm</strong></div>
+             <div className="flex items-center justify-between"><span>Sát khuẩn tay:</span><strong className="text-blue-600 bg-blue-50 px-2 py-0.5 rounded">Khuyến khích</strong></div>
+          </div>
+        </div>
+      </div>
+
+      {/* MID: Main Content Area */}
+      <div className="flex-1 w-full space-y-6 min-w-0">
       {/* Search Console */}
       <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-100">
         <h2 className="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
@@ -1702,6 +1749,61 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
           </div>
         </div>
       )}
+
+      </div>
+      
+      {/* Right Sidebar */}
+      <div className="hidden lg:flex w-[320px] xl:w-[350px] shrink-0 flex-col gap-6 sticky top-6 animate-in slide-in-from-right-8 duration-700 fade-in">
+        <div className="bg-gradient-to-br from-teal-600 to-emerald-700 rounded-2xl p-6 shadow-lg text-white relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl transform translate-x-10 -translate-y-10"></div>
+          <h3 className="font-black text-lg mb-2 flex items-center gap-2 relative z-10"><MapPin className="w-5 h-5"/> Tiện ích Bệnh viện</h3>
+          <p className="text-sm text-emerald-50 mb-5 relative z-10">Các dịch vụ thiết yếu phục vụ thân nhân và người bệnh.</p>
+          <ul className="space-y-4 text-sm font-medium relative z-10">
+            <li className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0 border border-white/30 backdrop-blur-sm">
+                <Coffee className="w-5 h-5 text-white"/>
+              </div>
+              <div className="pt-0.5"><strong className="block text-white text-[15px]">Khu Căn tin & Giải khát</strong><span className="text-emerald-100 text-xs mt-0.5 block">Tầng Trệt - Sảnh Tòa A & Tòa C</span></div>
+            </li>
+            <li className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0 border border-white/30 backdrop-blur-sm">
+                <span className="font-black">WC</span>
+              </div>
+              <div className="pt-0.5"><strong className="block text-white text-[15px]">Nhà vệ sinh Công cộng</strong><span className="text-emerald-100 text-xs mt-0.5 block">Nằm ở cuối mỗi hành lang tầng</span></div>
+            </li>
+          </ul>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="p-5 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+            <h3 className="font-black text-slate-800 text-[15px] flex items-center gap-2"><PhoneCall className="w-4 h-4 text-rose-500 fill-rose-500/20"/> Mạng lưới Liên lạc</h3>
+          </div>
+          <div className="p-5 flex flex-col gap-4 text-sm">
+            <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">Cấp Cứu Ngoại Vi:</span><strong className="text-rose-600 font-black text-base">115</strong></div>
+            <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">Tổng Đài CSKH:</span><strong className="text-blue-600 font-bold">1900 1234</strong></div>
+            <div className="flex justify-between items-center"><span className="text-slate-500 font-medium">Phản Ánh DVKH:</span><strong className="text-slate-700 font-bold">028 3823 4567</strong></div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+           <h3 className="font-black text-slate-800 text-[15px] mb-4 flex items-center gap-2"><Clock className="w-4 h-4 text-amber-500"/> Giờ Khám Bệnh Trực Tiếp</h3>
+           <div className="space-y-3 text-[13px] text-slate-600">
+              <div className="flex justify-between items-center"><span className="font-medium text-slate-500">Thứ 2 - Thứ 6:</span><span className="font-bold text-slate-800 bg-slate-50 px-2 py-1 rounded">07:00 - 16:30</span></div>
+              <div className="flex justify-between items-center"><span className="font-medium text-slate-500">Thứ 7:</span><span className="font-bold text-slate-800 bg-slate-50 px-2 py-1 rounded">07:00 - 11:30</span></div>
+              <div className="flex justify-between items-center"><span className="font-medium text-slate-500">Chủ Nhật & Lễ:</span><span className="font-black text-rose-500 bg-rose-50 px-2 py-1 rounded uppercase tracking-wider text-[11px]">Chỉ trực Cấp cứu</span></div>
+           </div>
+        </div>
+        
+        <div className="bg-blue-50/50 rounded-2xl p-5 border border-blue-100 flex items-start gap-4 text-left">
+           <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
+             <Info className="w-5 h-5"/>
+           </div>
+           <div>
+             <h4 className="font-bold text-blue-800 text-sm">Gợi ý Ứng dụng</h4>
+             <p className="text-xs text-blue-600/80 mt-1 leading-relaxed">Hãy sử dụng <strong>Tai nghe</strong> trong quá trình chờ tại các khu vực đông người để nghe thông báo từ Trợ lý ảo rõ ràng hơn.</p>
+           </div>
+        </div>
+      </div>
     </div>
   );
 }

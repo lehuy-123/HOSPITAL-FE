@@ -189,7 +189,7 @@ export default function StaffView({ departments, onTicketCreated, apiBase, socke
         const res = await fetch(`${apiBase}/api/departments/config`);
         if (res.ok) {
           const data = await res.json();
-          setMainDepartments(data);
+          setMainDepartments(data.filter(d => d.id !== 'K_PHARMACY'));
         }
       } catch (err) {
         console.error('Lỗi khi tải cấu hình khoa khám:', err);

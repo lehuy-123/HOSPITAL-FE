@@ -1038,9 +1038,17 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                                     spokenText = `Từ phòng khám hiện tại, vui lòng xuống Hành lang chính, ${generateNavInstruction(startCode, endCode).replace('m và', ' mét và')} để sang ${toa}.`;
                                   }
                                 } else if (currentState === 1) {
-                                  spokenText = `Tuyệt vời! Tiếp theo hãy sử dụng hệ thống thang máy trung tâm để di chuyển lên Tầng ${tang}. Vui lòng xác nhận trên màn hình khi bạn đã đứng tại sảnh thang máy ở Tầng ${tang}.`;
+                                  if (tang === 1) {
+                                     spokenText = `Tuyệt vời, bạn đang ở sảnh chính của ${toa}. Điểm đến nằm ngay tại Tầng trệt, bạn không cần phải tìm thang máy, hãy ấn xác nhận trên màn hình để xem sơ đồ dẫn tới phòng!`;
+                                  } else {
+                                     spokenText = `Tuyệt vời! Tiếp theo hãy sử dụng hệ thống thang máy trung tâm để di chuyển lên Tầng ${tang}. Vui lòng xác nhận trên màn hình khi bạn đã đứng tại sảnh thang máy ở Tầng ${tang}.`;
+                                  }
                                 } else if (currentState === 2) {
-                                  spokenText = `Gần đến nơi rồi! Bạn đã ở Tầng ${tang}. Hãy thả bộ dọc hành lang và tìm chính xác ${dept.roomNumber}.`;
+                                  if (tang === 1) {
+                                     spokenText = `Bạn đã ở đúng Tầng trệt. Hãy thả bộ dọc hành lang và tìm chính xác không gian ${dept.roomNumber}.`;
+                                  } else {
+                                     spokenText = `Gần đến nơi rồi! Bạn đã ở Tầng ${tang}. Hãy thả bộ dọc hành lang và tìm chính xác ${dept.roomNumber}.`;
+                                  }
                                 }
                               }
 

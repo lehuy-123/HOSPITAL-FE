@@ -453,7 +453,7 @@ export default function VisualHospitalMap({ departmentName, roomNumber }) {
               SƠ ĐỒ TÒA {viewToa}
             </h1>
             <h2 className="text-[13px] font-bold text-slate-800 uppercase tracking-wider mt-1 border-b-[3px] border-slate-400 pb-1 text-center w-full">
-              {TOA_NAMES[viewToa]}<br />{viewFloor === 1 ? 'TẦNG TRỆT' : `LẦU ${viewFloor - 1} (TẦNG ${viewFloor})`}
+              {TOA_NAMES[viewToa]}<br />{viewFloor === 1 ? (viewToa === 'A' ? 'TẦNG TRỆT' : 'TẦNG 1') : `LẦU ${viewFloor - 1} (TẦNG ${viewFloor})`}
             </h2>
             <div className="mt-2 text-[10px] font-bold text-slate-500 tracking-widest">HÀNH LANG LÕI</div>
           </div>

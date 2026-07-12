@@ -1038,16 +1038,16 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                                     spokenText = `Từ phòng khám hiện tại, vui lòng xuống Hành lang chính, ${generateNavInstruction(startCode, endCode).replace('m và', ' mét và')} để sang ${toa}.`;
                                   }
                                 } else if (currentState === 1) {
-                                  if (tang === 1) {
-                                     spokenText = `Tuyệt vời, bạn đang ở sảnh chính của ${toa}. Điểm đến nằm ngay tại Tầng trệt, bạn không cần phải tìm thang máy, hãy ấn xác nhận trên màn hình để xem sơ đồ dẫn tới phòng!`;
+                                  if (tang === 1 && toa.includes('Tòa A')) {
+                                    spokenText = `Tuyệt vời, bạn đang ở sảnh chính của ${toa}. Điểm đến nằm ngay tại Tầng trệt, bạn không cần phải tìm thang máy, hãy ấn xác nhận trên màn hình để xem sơ đồ dẫn tới phòng!`;
                                   } else {
-                                     spokenText = `Tuyệt vời! Tiếp theo hãy sử dụng hệ thống thang máy trung tâm để di chuyển lên Tầng ${tang}. Vui lòng xác nhận trên màn hình khi bạn đã đứng tại sảnh thang máy ở Tầng ${tang}.`;
+                                    spokenText = `Tuyệt vời! Tiếp theo hãy sử dụng hệ thống thang máy trung tâm để di chuyển lên Tầng ${tang}. Vui lòng xác nhận trên màn hình khi bạn đã đứng tại sảnh thang máy ở Tầng ${tang}.`;
                                   }
                                 } else if (currentState === 2) {
-                                  if (tang === 1) {
-                                     spokenText = `Bạn đã ở đúng Tầng trệt. Hãy thả bộ dọc hành lang và tìm chính xác không gian ${dept.roomNumber}.`;
+                                  if (tang === 1 && toa.includes('Tòa A')) {
+                                    spokenText = `Bạn đã ở đúng Tầng trệt. Hãy thả bộ dọc hành lang và tìm chính xác không gian ${dept.roomNumber}.`;
                                   } else {
-                                     spokenText = `Gần đến nơi rồi! Bạn đã ở Tầng ${tang}. Hãy thả bộ dọc hành lang và tìm chính xác ${dept.roomNumber}.`;
+                                    spokenText = `Gần đến nơi rồi! Bạn đã ở Tầng ${tang}. Hãy thả bộ dọc hành lang và tìm chính xác ${dept.roomNumber}.`;
                                   }
                                 }
                               }
@@ -1073,7 +1073,7 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                                       <div className="absolute top-1/2 left-8 right-8 h-1 bg-blue-100 -translate-y-1/2 -z-10 rounded-full"></div>
                                       {[
                                         { stepIdx: 0, label: 'Tòa Nhà', icon: Building, desc: toa.split(' ')[0] },
-                                        { stepIdx: 1, label: 'Khu Vực', icon: Layers, desc: tang === 1 ? 'Tầng Trệt' : `Tại Tầng ${tang}` },
+                                        { stepIdx: 1, label: 'Khu Vực', icon: Layers, desc: (tang === 1 && toa.includes('Tòa A')) ? 'Tầng Trệt' : `Tại Tầng ${tang}` },
                                         { stepIdx: 2, label: 'Tới Phòng', icon: MapPin, desc: dept.roomNumber }
                                       ].map(s => {
                                         const isPassed = currentState > s.stepIdx;
@@ -1150,14 +1150,14 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                                       </div>
                                     )}
                                     {currentState === 1 && (
-                                      <p className="text-sm text-slate-600 leading-relaxed">Tuyệt vời, bạn đang ở Sảnh Chính của <strong>{toa}</strong>. {tang === 1 ? (
+                                      <p className="text-sm text-slate-600 leading-relaxed">Tuyệt vời, bạn đang ở Sảnh Chính của <strong>{toa}</strong>. {(tang === 1 && toa.includes('Tòa A')) ? (
                                         <>Điểm đến nằm ngay tại Tầng Trệt này. Không Cần phải loay hoay tìm Thang Máy nữa.<br /><span className="text-xs text-rose-500 mt-1 block italic -ml-1 border-l-2 border-rose-400 pl-2">Hãy BẤM XÁC NHẬN BÊN DƯỚI để xem sơ đồ Tầng Trệt chi tiết dẫn đường tới tận phòng!</span></>
                                       ) : (
                                         <>Tiếp theo hãy sử dụng <strong className="text-blue-700">Lõi Thang bộ / Thang máy trung tâm của tòa nhà này</strong> để di chuyển lên <strong className="text-blue-700 text-lg uppercase px-1">Tầng {tang}</strong>.<br /><span className="text-xs text-rose-500 mt-1 block italic -ml-1 border-l-2 border-rose-400 pl-2">Hãy BẤM NÚT XÁC NHẬN BÊN DƯỚI khi bạn đã đứng tại khu vực Thang máy ở Tầng {tang}, Sơ đồ dẫn đường chi tiết tới phòng khám sẽ hiện ra!</span></>
                                       )}</p>
                                     )}
                                     {currentState === 2 && (
-                                      <p className="text-sm text-slate-600 leading-relaxed">Gần đến nơi rồi! Bạn đã ở Tầng {tang}. Hãy thả bộ dọc hành lang tầng này và tìm chính xác <strong className="text-blue-700 text-lg uppercase px-1">{dept.roomNumber}</strong>.<br />Phòng này thuộc Khoa <strong>{parentName}</strong>.</p>
+                                      <p className="text-sm text-slate-600 leading-relaxed">Gần đến nơi rồi! Bạn đã ở {(tang === 1 && toa.includes('Tòa A')) ? 'Tầng Trệt' : `Tầng ${tang}`}. Hãy thả bộ dọc hành lang tầng này và tìm chính xác <strong className="text-blue-700 text-lg uppercase px-1">{dept.roomNumber}</strong>.<br />Phòng này thuộc Khoa <strong>{parentName}</strong>.</p>
                                     )}
                                   </div>
 
@@ -1167,7 +1167,7 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                                       className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black tracking-widest text-xs sm:text-sm uppercase rounded-2xl shadow-[0_5px_15px_rgba(37,99,235,0.3)] transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer"
                                     >
                                       {currentState === 0 ? <Building className="w-5 h-5 fill-current opacity-80" /> : currentState === 1 ? <Layers className="w-5 h-5 opacity-80" /> : <MapPin className="w-5 h-5 fill-current opacity-80" />}
-                                      {currentState === 0 ? `XÁC NHẬN ĐÃ ĐẾN ${toa.split(' ')[0]}` : currentState === 1 ? (tang === 1 ? `XEM BẢN ĐỒ TẦNG TRỆT` : `XÁC NHẬN ĐÃ Ở THANG MÁY TẦNG ${tang}`) : 'TÔI ĐÃ ĐẾN TRƯỚC CỬA PHÒNG'}
+                                      {currentState === 0 ? `XÁC NHẬN ĐÃ ĐẾN ${toa.split(' ')[0]}` : currentState === 1 ? ((tang === 1 && toa.includes('Tòa A')) ? `XEM BẢN ĐỒ TẦNG TRỆT` : `XÁC NHẬN ĐÃ Ở THANG MÁY TẦNG ${tang}`) : 'TÔI ĐÃ ĐẾN TRƯỚC CỬA PHÒNG'}
                                     </button>
                                     <button
                                       onClick={() => setLostHelpModal({ isOpen: true, data: { ticketId: selectedTicket.ticketId, room: dept.roomNumber, deptName: dept.name } })}

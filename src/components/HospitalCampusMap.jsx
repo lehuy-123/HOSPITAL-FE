@@ -69,12 +69,12 @@ export default function HospitalCampusMap({ currentToa = 'Tòa A', targetToa = '
    }, [gpsTracker.active]);
 
    const buildings = [
-      { id: 'D', name: 'TÒA D', subtitle: 'SẢN NHI', x: 80, y: 60, w: 220, h: 140, icon: Baby, avatar: '/toa_3.png?v=2' },
-      { id: 'E', name: 'TÒA E', subtitle: 'CHUYÊN KHOA', x: 500, y: 60, w: 220, h: 140, icon: Activity, avatar: '/toa_2.png?v=2' },
+      { id: 'D', name: 'TÒA D', subtitle: 'SẢN NHI', x: 80, y: 60, w: 220, h: 140, icon: Baby, avatar: '/toa_5.png?v=2' },
+      { id: 'E', name: 'TÒA E', subtitle: 'CHUYÊN KHOA', x: 500, y: 60, w: 220, h: 140, icon: Activity, avatar: '/toa_6.png?v=2' },
       { id: 'F', name: 'TÒA F', subtitle: 'CẬN LÂM SÀNG', x: 290, y: 220, w: 220, h: 140, icon: Microscope, avatar: '/toa_1.png?v=2' },
       { id: 'B', name: 'TÒA B', subtitle: 'NỘI KHOA', x: 80, y: 380, w: 220, h: 140, icon: Stethoscope, avatar: '/toa_2.png?v=2' },
       { id: 'C', name: 'TÒA C', subtitle: 'NGOẠI KHOA', x: 500, y: 380, w: 220, h: 140, icon: Scissors, avatar: '/toa_3.png?v=2' },
-      { id: 'A', name: 'TÒA A', subtitle: 'QUẦY CẤP THUỐC', x: 290, y: 540, w: 220, h: 140, icon: HeartPulse, avatar: '/toa_4.png?v=2' }
+      { id: 'A', name: 'TÒA A', subtitle: 'CẤP CỨU & QUẦY CẤP THUỐC', x: 290, y: 540, w: 220, h: 140, icon: HeartPulse, avatar: '/toa_4.png?v=2' }
    ];
 
    function getBuildingCenter(id) {

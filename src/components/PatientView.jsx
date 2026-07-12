@@ -918,7 +918,7 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                         </div>
 
                         {/* LOCOMOTION / NAVIGATION PHASE (3-Step Wizard) */}
-                        {isCurrent && (navStates[`${selectedTicket.ticketId}_${step.deptId}`] || 0) < 3 && (
+                        {isCurrent && (navStates[`${selectedTicket._id}_${step.deptId}`] || 0) < 3 && (
                           <div className="mt-4 p-4 sm:p-5 bg-gradient-to-br from-indigo-50 to-blue-50/50 border border-blue-200/60 rounded-2xl animate-in fade-in zoom-in duration-500 shadow-sm">
 
                             {(() => {
@@ -960,7 +960,7 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                                 }
                               }
 
-                              const rawState = navStates[`${selectedTicket.ticketId}_${step.deptId}`] || 0;
+                              const rawState = navStates[`${selectedTicket._id}_${step.deptId}`] || 0;
                               let autoSkipState = 0;
 
                               if (idx > 0) {
@@ -1163,7 +1163,7 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
 
                                   <div className="flex flex-col gap-2 w-full">
                                     <button
-                                      onClick={() => advanceNavState(step.deptId, selectedTicket.ticketId, currentState)}
+                                      onClick={() => advanceNavState(step.deptId, selectedTicket._id, currentState)}
                                       className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black tracking-widest text-xs sm:text-sm uppercase rounded-2xl shadow-[0_5px_15px_rgba(37,99,235,0.3)] transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer"
                                     >
                                       {currentState === 0 ? <Building className="w-5 h-5 fill-current opacity-80" /> : currentState === 1 ? <Layers className="w-5 h-5 opacity-80" /> : <MapPin className="w-5 h-5 fill-current opacity-80" />}
@@ -1183,7 +1183,7 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                         )}
 
                         {/* QUEUE & CLINICAL STATUS PHASE (Unlocks after arrival) */}
-                        {isCurrent && (navStates[`${selectedTicket.ticketId}_${step.deptId}`] || 0) === 3 && isProcessing && (
+                        {isCurrent && (navStates[`${selectedTicket._id}_${step.deptId}`] || 0) === 3 && isProcessing && (
                           <div className="mt-4 animate-in fade-in zoom-in duration-500 shadow-xl rounded-2xl flex flex-col">
                             <div
                               onClick={() => handleShowPrep(dept, step)}
@@ -1215,7 +1215,7 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                           </div>
                         )}
 
-                        {isCurrent && (navStates[`${selectedTicket.ticketId}_${step.deptId}`] || 0) === 3 && !isProcessing && (
+                        {isCurrent && (navStates[`${selectedTicket._id}_${step.deptId}`] || 0) === 3 && !isProcessing && (
                           <div className="mt-4 p-4 sm:p-5 bg-gradient-to-br from-slate-50 to-amber-50/50 border border-amber-100/60 rounded-xl animate-in fade-in duration-500">
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                               {/* Stats Box 1 */}

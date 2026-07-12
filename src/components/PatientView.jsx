@@ -75,12 +75,12 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
   useEffect(() => {
     let timer;
     if (waitingForApprovalId) {
-       setIsWaitOvertime(false);
-       timer = setTimeout(() => {
-          setIsWaitOvertime(true);
-       }, 7000); // 7 seconds timeout
+      setIsWaitOvertime(false);
+      timer = setTimeout(() => {
+        setIsWaitOvertime(true);
+      }, 7000); // 7 seconds 
     } else {
-       setIsWaitOvertime(false);
+      setIsWaitOvertime(false);
     }
     return () => clearTimeout(timer);
   }, [waitingForApprovalId]);
@@ -133,10 +133,10 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
             }
           }
         } catch (e) {
-            console.log("Could not check pending ticket status");
+          console.log("Could not check pending ticket status");
         }
       };
-      
+
       const timerId = setInterval(checkStatus, 2000);
       return () => clearInterval(timerId);
     }
@@ -145,8 +145,8 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
   const handlePreRegister = async (e) => {
     e.preventDefault();
     if (!preName.trim() || !prePhone.trim() || !preDob.trim()) {
-       setError("Vui lòng nhập đầy đủ Tên, Số điện thoại và Năm sinh");
-       return;
+      setError("Vui lòng nhập đầy đủ Tên, Số điện thoại và Năm sinh");
+      return;
     }
     setLoading(true); setError(''); setSuccess('');
 
@@ -154,26 +154,26 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
       const res = await fetch(`${apiBase}/api/tickets/pre-register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-           name: preName, 
-           phone: prePhone, 
-           symptoms: preSymptoms,
-           gender: preGender,
-           dob: preDob,
-           address: preAddress,
-           insurance: preBHYT,
-           medicalHistory: preMedicalHistory
+        body: JSON.stringify({
+          name: preName,
+          phone: prePhone,
+          symptoms: preSymptoms,
+          gender: preGender,
+          dob: preDob,
+          address: preAddress,
+          insurance: preBHYT,
+          medicalHistory: preMedicalHistory
         })
       });
       const data = await res.json();
       if (res.ok) {
-         setWaitingForApprovalId(data.ticketId);
-         localStorage.setItem('hq_waiting_approval_id', data.ticketId);
-         setSuccess('');
+        setWaitingForApprovalId(data.ticketId);
+        localStorage.setItem('hq_waiting_approval_id', data.ticketId);
+        setSuccess('');
       } else {
-         setError(data.message || 'Lỗi');
+        setError(data.message || 'Lỗi');
       }
-    } catch(err) {
+    } catch (err) {
       setError('Lỗi kết nối máy chủ!');
     }
     setLoading(false);
@@ -217,7 +217,7 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
         if ('vibrate' in navigator) navigator.vibrate([200, 100, 200]);
       }
     };
-    
+
     const typingHandler = (payload) => {
       if (selectedTicket && payload.ticketId === selectedTicket.ticketId && payload.sender === 'STAFF') {
         setStaffTyping(true);
@@ -242,12 +242,12 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
     socket.on('emergency_chat_typing', typingHandler);
     socket.on('emergency_chat_seen', seenHandler);
     socket.on('emergency_chat_delete', deleteHandler);
-    
+
     return () => {
-       socket.off('emergency_chat_message', handler);
-       socket.off('emergency_chat_typing', typingHandler);
-       socket.off('emergency_chat_seen', seenHandler);
-       socket.off('emergency_chat_delete', deleteHandler);
+      socket.off('emergency_chat_message', handler);
+      socket.off('emergency_chat_typing', typingHandler);
+      socket.off('emergency_chat_seen', seenHandler);
+      socket.off('emergency_chat_delete', deleteHandler);
     };
   }, [socket, selectedTicket]);
 
@@ -630,83 +630,83 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
           <div className="mt-4 pt-4 border-t border-slate-100 flex flex-col items-center">
             <p className="text-slate-500 text-sm mb-3">Chưa có mã khám bệnh?</p>
             <button
-               onClick={() => setIsPreRegistering(true)}
-               className="w-full bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-bold py-3 rounded-xl transition-colors ring-1 ring-emerald-300 ring-inset cursor-pointer flex justify-center items-center gap-2"
+              onClick={() => setIsPreRegistering(true)}
+              className="w-full bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-bold py-3 rounded-xl transition-colors ring-1 ring-emerald-300 ring-inset cursor-pointer flex justify-center items-center gap-2"
             >
-               <FileText className="w-5 h-5"/> Đăng Ký Khám Bệnh Trực Tuyến
+              <FileText className="w-5 h-5" /> Đăng Ký Khám Bệnh Trực Tuyến
             </button>
           </div>
         )}
 
         {isPreRegistering && !waitingForApprovalId && (
-           <div className="mt-6 pt-5 border-t border-slate-200">
-             <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-slate-800 text-lg">Điền thông tin trực tuyến</h3>
-                <button onClick={() => setIsPreRegistering(false)} className="text-slate-400 hover:text-rose-500"><X className="w-5 h-5"/></button>
-             </div>
-             <form onSubmit={handlePreRegister} className="flex flex-col gap-3">
-               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                 <input type="text" placeholder="Họ và Tên *" value={preName} onChange={(e) => setPreName(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-                 <input type="text" placeholder="Số điện thoại *" value={prePhone} onChange={(e) => setPrePhone(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-               </div>
-               
-               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                 <select value={preGender} onChange={(e) => setPreGender(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white">
-                   <option value="Nam">Nam</option>
-                   <option value="Nữ">Nữ</option>
-                   <option value="Khác">Khác</option>
-                 </select>
-                 <input type="number" placeholder="Năm sinh *" value={preDob} onChange={(e) => setPreDob(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-                 <input type="text" placeholder="Mã BHYT (nếu có)" value={preBHYT} onChange={(e) => setPreBHYT(e.target.value)} className="w-full col-span-2 sm:col-span-1 px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-               </div>
+          <div className="mt-6 pt-5 border-t border-slate-200">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-bold text-slate-800 text-lg">Điền thông tin trực tuyến</h3>
+              <button onClick={() => setIsPreRegistering(false)} className="text-slate-400 hover:text-rose-500"><X className="w-5 h-5" /></button>
+            </div>
+            <form onSubmit={handlePreRegister} className="flex flex-col gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input type="text" placeholder="Họ và Tên *" value={preName} onChange={(e) => setPreName(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                <input type="text" placeholder="Số điện thoại *" value={prePhone} onChange={(e) => setPrePhone(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              </div>
 
-               <input type="text" placeholder="Tỉnh/Thành phố, Quận/Huyện, Phường/Xã..." value={preAddress} onChange={(e) => setPreAddress(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-               <input type="text" placeholder="Tiền sử bệnh lý nền (VD: Huyết áp, Tiểu đường...)" value={preMedicalHistory} onChange={(e) => setPreMedicalHistory(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-               
-               <textarea placeholder="Mô tả chi tiết triệu chứng bệnh hiện tại..." value={preSymptoms} onChange={(e) => setPreSymptoms(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" rows={3}></textarea>
-               
-               <button type="submit" disabled={loading} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-colors cursor-pointer mt-2 shadow-md">
-                 {loading ? 'Đang gửi...' : 'Gửi Yêu Cầu Chờ Phân Khoa'}
-               </button>
-             </form>
-           </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <select value={preGender} onChange={(e) => setPreGender(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white">
+                  <option value="Nam">Nam</option>
+                  <option value="Nữ">Nữ</option>
+                  <option value="Khác">Khác</option>
+                </select>
+                <input type="number" placeholder="Năm sinh *" value={preDob} onChange={(e) => setPreDob(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                <input type="text" placeholder="Mã BHYT (nếu có)" value={preBHYT} onChange={(e) => setPreBHYT(e.target.value)} className="w-full col-span-2 sm:col-span-1 px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              </div>
+
+              <input type="text" placeholder="Tỉnh/Thành phố, Quận/Huyện, Phường/Xã..." value={preAddress} onChange={(e) => setPreAddress(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <input type="text" placeholder="Tiền sử bệnh lý nền (VD: Huyết áp, Tiểu đường...)" value={preMedicalHistory} onChange={(e) => setPreMedicalHistory(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+
+              <textarea placeholder="Mô tả chi tiết triệu chứng bệnh hiện tại..." value={preSymptoms} onChange={(e) => setPreSymptoms(e.target.value)} className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" rows={3}></textarea>
+
+              <button type="submit" disabled={loading} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-colors cursor-pointer mt-2 shadow-md">
+                {loading ? 'Đang gửi...' : 'Gửi Yêu Cầu Chờ Phân Khoa'}
+              </button>
+            </form>
+          </div>
         )}
 
         {waitingForApprovalId && (
-           <div className="mt-6 bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm">
-             <div className="flex flex-col sm:flex-row items-center gap-4 border-b border-slate-200 pb-4 mb-4">
-               <div className="flex items-center gap-3 flex-1 text-left">
-                  <div className="w-12 h-12 shrink-0 bg-blue-100 text-blue-600 rounded-full flex flex-col items-center justify-center relative shadow-inner ring-2 ring-blue-50">
-                     <Send className="w-5 h-5 ml-0.5 relative z-10" />
-                     <div className="absolute inset-0 rounded-full border border-blue-300 animate-ping opacity-50"></div>
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-slate-800 text-base">Đã Gửi Thành Công!</h3>
-                    <p className="text-slate-500 text-[13px]">Vui lòng đợi y tế duyệt hồ sơ.</p>
-                  </div>
-               </div>
-               
-               <div className="bg-white border border-blue-300 shadow-sm rounded-xl px-4 py-2 flex flex-col items-center justify-center shrink-0 w-full sm:w-auto">
-                 <div className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">MÃ HỒ SƠ TẠM</div>
-                 <div className="text-blue-600 font-bold text-2xl tracking-wider leading-none">{waitingForApprovalId}</div>
-               </div>
-             </div>
-             
-             {isWaitOvertime ? (
-                 <div className="bg-amber-50 rounded-xl p-3 border border-amber-200 text-amber-800 text-sm flex gap-3 items-start animate-fade-in text-left">
-                    <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5"/>
-                    <p className="text-amber-700/90 text-[13px] leading-relaxed">
-                       <strong>Bạn đợi có lâu không?</strong> Phòng Y tế hiện có thể quá tải. Vui lòng giữ kết nối thêm giây lát, hoặc di chuyển đến <strong>Quầy Tiếp Nhận</strong> để được xử lý ngay lập tức!
-                    </p>
-                 </div>
-             ) : (
-                <div className="flex gap-2.5 justify-center items-center bg-white px-5 py-2.5 rounded-full border border-slate-100 shadow-sm text-[13px] text-slate-600 font-medium">
-                  <div className="w-4 h-4 border-[2px] border-slate-300 border-t-blue-500 rounded-full animate-spin"></div>
-                  Hệ thống đang tự động duyệt và cấp phiên lâm sàng...
+          <div className="mt-6 bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm">
+            <div className="flex flex-col sm:flex-row items-center gap-4 border-b border-slate-200 pb-4 mb-4">
+              <div className="flex items-center gap-3 flex-1 text-left">
+                <div className="w-12 h-12 shrink-0 bg-blue-100 text-blue-600 rounded-full flex flex-col items-center justify-center relative shadow-inner ring-2 ring-blue-50">
+                  <Send className="w-5 h-5 ml-0.5 relative z-10" />
+                  <div className="absolute inset-0 rounded-full border border-blue-300 animate-ping opacity-50"></div>
                 </div>
-             )}
-           </div>
-         )}
+                <div>
+                  <h3 className="font-bold text-slate-800 text-base">Đã Gửi Thành Công!</h3>
+                  <p className="text-slate-500 text-[13px]">Vui lòng đợi y tế duyệt hồ sơ.</p>
+                </div>
+              </div>
+
+              <div className="bg-white border border-blue-300 shadow-sm rounded-xl px-4 py-2 flex flex-col items-center justify-center shrink-0 w-full sm:w-auto">
+                <div className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">MÃ HỒ SƠ TẠM</div>
+                <div className="text-blue-600 font-bold text-2xl tracking-wider leading-none">{waitingForApprovalId}</div>
+              </div>
+            </div>
+
+            {isWaitOvertime ? (
+              <div className="bg-amber-50 rounded-xl p-3 border border-amber-200 text-amber-800 text-sm flex gap-3 items-start animate-fade-in text-left">
+                <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <p className="text-amber-700/90 text-[13px] leading-relaxed">
+                  <strong>Bạn đợi có lâu không?</strong> Phòng Y tế hiện có thể quá tải. Vui lòng giữ kết nối thêm giây lát, hoặc di chuyển đến <strong>Quầy Tiếp Nhận</strong> để được xử lý ngay lập tức!
+                </p>
+              </div>
+            ) : (
+              <div className="flex gap-2.5 justify-center items-center bg-white px-5 py-2.5 rounded-full border border-slate-100 shadow-sm text-[13px] text-slate-600 font-medium">
+                <div className="w-4 h-4 border-[2px] border-slate-300 border-t-blue-500 rounded-full animate-spin"></div>
+                Hệ thống đang tự động duyệt và cấp phiên lâm sàng...
+              </div>
+            )}
+          </div>
+        )}
 
         {error && (
           <div className="mt-4 p-3 bg-rose-50 text-rose-700 rounded-xl border border-rose-100 text-sm flex items-center gap-2">
@@ -956,7 +956,7 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                                 };
                                 toa = CATEGORY_TO_TOA[categoryName] || 'Tòa Trung Tâm';
                                 if (parentName === 'Quầy Phát Thuốc Ngoại Trú') {
-                                    toa = 'Tòa A (Quầy Cấp Thuốc)';
+                                  toa = 'Tòa A (Quầy Cấp Thuốc)';
                                 }
                               }
 
@@ -989,7 +989,7 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                                   };
                                   prevToaName = CATEGORY_TO_TOA[prevCategoryName] || 'Tòa Trung Tâm';
                                   if (prevParentName === 'Quầy Phát Thuốc Ngoại Trú') {
-                                     prevToaName = 'Tòa A (Quầy Cấp Thuốc)';
+                                    prevToaName = 'Tòa A (Quầy Cấp Thuốc)';
                                   }
                                 }
 
@@ -1030,7 +1030,7 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                                       };
                                       prevToaSpeech = CATEGORY_TO_TOA[prevCategoryName] || 'Tòa Trung Tâm';
                                       if (prevParentName === 'Quầy Phát Thuốc Ngoại Trú') {
-                                         prevToaSpeech = 'Tòa A (Quầy Cấp Thuốc)';
+                                        prevToaSpeech = 'Tòa A (Quầy Cấp Thuốc)';
                                       }
                                     }
                                     const startCode = prevToaSpeech.length > 4 ? prevToaSpeech.substring(4, 5) : 'A';
@@ -1129,7 +1129,7 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                                             };
                                             prevToa = CATEGORY_TO_TOA[prevCategoryName] || 'Tòa Trung Tâm';
                                             if (prevParentName === 'Quầy Phát Thuốc Ngoại Trú') {
-                                               prevToa = 'Tòa A (Quầy Cấp Thuốc)';
+                                              prevToa = 'Tòa A (Quầy Cấp Thuốc)';
                                             }
                                           }
 
@@ -1573,7 +1573,7 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                         {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                       {isOurs && msg.timestamp <= staffSeenTimestamp && (
-                         <CheckCircle2 className="w-3 h-3 text-blue-200" />
+                        <CheckCircle2 className="w-3 h-3 text-blue-200" />
                       )}
                     </div>
                   </div>
@@ -1581,9 +1581,9 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
               })}
               {staffTyping && (
                 <div className="self-start bg-white border border-slate-200 text-slate-500 rounded-r-2xl rounded-tl-2xl shadow-sm px-4 py-2 flex items-center justify-center gap-1 w-fit max-w-[85%]">
-                   <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></div>
-                   <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce delay-75"></div>
-                   <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce delay-150"></div>
+                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></div>
+                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce delay-75"></div>
+                  <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce delay-150"></div>
                 </div>
               )}
             </div>
@@ -1593,7 +1593,6 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
               <input
                 type="file"
                 accept="image/*"
-                capture="environment"
                 id="cameraInput"
                 className="hidden"
                 onChange={(e) => {
@@ -1627,8 +1626,8 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
               <textarea
                 value={emergencyChat.inputText}
                 onChange={(e) => {
-                   setEmergencyChat(prev => ({ ...prev, inputText: e.target.value }));
-                   if (socket && selectedTicket) socket.emit('emergency_chat_typing', { ticketId: selectedTicket.ticketId, sender: 'PATIENT' });
+                  setEmergencyChat(prev => ({ ...prev, inputText: e.target.value }));
+                  if (socket && selectedTicket) socket.emit('emergency_chat_typing', { ticketId: selectedTicket.ticketId, sender: 'PATIENT' });
                 }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendPatientMessage(emergencyChat.inputText); }
@@ -1667,33 +1666,33 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
 
       {/* APPROVED TICKET MODAL */}
       {approvedTicketAlert && (
-         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-           <div className="bg-white rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl animate-in zoom-in duration-300">
-             <div className="bg-emerald-500 px-6 py-8 relative overflow-hidden flex flex-col items-center text-center">
-               <div className="w-16 h-16 bg-white rounded-full flex flex-col items-center justify-center shadow-lg relative z-10 mb-4 animate-[bounce_1s_ease-in-out_infinite]">
-                  <CheckCircle2 className="w-10 h-10 text-emerald-500" />
-               </div>
-               <h2 className="text-white font-black text-2xl uppercase tracking-wider relative z-10">ĐÃ DUYỆT!</h2>
-               <p className="text-emerald-50 font-medium text-sm mt-1 mb-2 relative z-10">Hồ sơ của bạn đã được thiết lập lộ trình</p>
-               
-               <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-20 rounded-full blur-2xl transform translate-x-10 -translate-y-10"></div>
-               <div className="absolute bottom-0 left-0 w-32 h-32 bg-white opacity-20 rounded-full blur-2xl transform -translate-x-10 translate-y-10"></div>
-             </div>
-             <div className="p-6 flex flex-col items-center gap-2">
-               <p className="text-slate-500 text-sm font-semibold uppercase tracking-widest text-center mt-2">Mã Khám Bệnh Chuyên Khoa</p>
-               <div className="bg-emerald-50 border-2 border-emerald-500 text-emerald-700 px-8 py-3 rounded-2xl text-4xl font-black tracking-widest shadow-sm my-2 text-center w-full">
-                  {approvedTicketAlert.ticketId}
-               </div>
-               <p className="text-slate-500 text-xs italic text-center mb-4">Tự động điều hướng sau 5 giây...</p>
-               <button 
-                 onClick={() => setApprovedTicketAlert(null)}
-                 className="w-full py-3.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl transition duration-200 cursor-pointer shadow-md"
-               >
-                 BẮT ĐẦU VÀO XEM LỘ TRÌNH KHÁM
-               </button>
-             </div>
-           </div>
-         </div>
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl animate-in zoom-in duration-300">
+            <div className="bg-emerald-500 px-6 py-8 relative overflow-hidden flex flex-col items-center text-center">
+              <div className="w-16 h-16 bg-white rounded-full flex flex-col items-center justify-center shadow-lg relative z-10 mb-4 animate-[bounce_1s_ease-in-out_infinite]">
+                <CheckCircle2 className="w-10 h-10 text-emerald-500" />
+              </div>
+              <h2 className="text-white font-black text-2xl uppercase tracking-wider relative z-10">ĐÃ DUYỆT!</h2>
+              <p className="text-emerald-50 font-medium text-sm mt-1 mb-2 relative z-10">Hồ sơ của bạn đã được thiết lập lộ trình</p>
+
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-20 rounded-full blur-2xl transform translate-x-10 -translate-y-10"></div>
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-white opacity-20 rounded-full blur-2xl transform -translate-x-10 translate-y-10"></div>
+            </div>
+            <div className="p-6 flex flex-col items-center gap-2">
+              <p className="text-slate-500 text-sm font-semibold uppercase tracking-widest text-center mt-2">Mã Khám Bệnh Chuyên Khoa</p>
+              <div className="bg-emerald-50 border-2 border-emerald-500 text-emerald-700 px-8 py-3 rounded-2xl text-4xl font-black tracking-widest shadow-sm my-2 text-center w-full">
+                {approvedTicketAlert.ticketId}
+              </div>
+              <p className="text-slate-500 text-xs italic text-center mb-4">Tự động điều hướng sau 5 giây...</p>
+              <button
+                onClick={() => setApprovedTicketAlert(null)}
+                className="w-full py-3.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl transition duration-200 cursor-pointer shadow-md"
+              >
+                BẮT ĐẦU VÀO XEM LỘ TRÌNH KHÁM
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

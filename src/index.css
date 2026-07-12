@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --font-sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #fdfdfd;
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tự động thu gọn UI về 85% trên máy tính để bảng thông tin và Map không bị phóng quá khổ */
+@media (min-width: 1024px) {
+  body {
+    zoom: 85%;
+  }
+}
+
+/* Custom premium scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Custom pulsing animations for hospital board context */
+@keyframes heart-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.95;
+  }
+}
+
+.pulsate-mild {
+  animation: heart-pulse 2s infinite ease-in-out;
+}

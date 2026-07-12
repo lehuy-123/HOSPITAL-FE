@@ -829,7 +829,7 @@ export default function PatientView({ departments, onConfirmNext, apiBase, socke
                 }
               }
 
-              const rawStateMap = currentStep ? (navStates[`${selectedTicket.ticketId}_${currentStep.deptId}`] || 0) : 0;
+              const rawStateMap = currentStep ? (navStates[`${selectedTicket._id}_${currentStep.deptId}`] || 0) : 0;
               const currentState = Math.max(rawStateMap, currentAutoSkip);
 
               // Extract current target TOA
